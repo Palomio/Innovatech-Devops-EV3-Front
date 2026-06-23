@@ -8,7 +8,7 @@ export const TableDespachos = () => {
 
   const despacho = async () => {
     await axios
-      .get("http://192.168.3.20/api/v1/despachos", {
+      .get(`${import.meta.env.VITE_URL_DESPACHOS}/api/v1/despachos`, {
         headers:{
               'Content-Type': 'application/json',
               'Accept': 'application/json'
@@ -19,7 +19,7 @@ export const TableDespachos = () => {
         setDespachos(response.data);
       });
   };
-  // Llamada a la función para obtener los datos cuando el componente se monta
+  
   useEffect(() => {
     despacho();
   }, []);
