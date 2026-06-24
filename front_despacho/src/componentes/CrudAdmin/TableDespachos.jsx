@@ -19,7 +19,7 @@ export const TableDespachos = () => {
         setDespachos(response.data);
       });
   };
-  
+  // Llamada a la función para obtener los datos cuando el componente se monta
   useEffect(() => {
     despacho();
   }, []);
@@ -68,7 +68,7 @@ export const TableDespachos = () => {
                       {despacho.patenteCamion}
                     </td>
                     <td className="pr-10 py-10  items-center">
-                      {despacho.entregado
+                      {despacho.despachado
                         ? "Despacho entregado"
                         : "Despacho pendiente"}
                     </td>

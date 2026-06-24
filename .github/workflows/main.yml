@@ -1,11 +1,9 @@
-
 name: CI/CD Pipeline - Frontend (EKS)
-
 
 on:
   push:
     branches:
-      - main
+      - MAIN
 
 jobs:
   build-and-deploy:
@@ -34,22 +32,21 @@ jobs:
           ECR_REPOSITORY: front
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build \
+            --build-arg VITE_URL_VENTAS=${{ secrets.URL_VENTAS }} \
+            --build-arg VITE_URL_DESPACHOS=${{ secrets.URL_DESPACHOS }} \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Actualizar Kubeconfig
-        run: aws eks update-kubeconfig --region us-east-1 --name EKS-Ev3 
+        run: aws eks update-kubeconfig --region us-east-1 --name ClusterEV3 
 
       - name: Desplegar Frontend en Kubernetes
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           TAG: ${{ github.sha }}
         run: |
-          # 1. Aplicamos los manifiestos de la carpeta k8s
-          kubectl apply -f k8s/
+          kubectl apply -f k8s/frontend.yaml
           
-          # 2. Actualizamos la imagen sin el "/ev2/"
-          kubectl set image deployment/front-innovatech-deployment front-innovatech=$ECR_REGISTRY/front:$TAG
-          
-          # 3. Verificamos que el despliegue termine correctamente
-          kubectl rollout status deployment/front-innovatech-deployment
+          kubectl set image deployment/frontend-deployment frontend=$ECR_REGISTRY/front:$TAG
+          kubectl rollout status deployment/frontend-deployment

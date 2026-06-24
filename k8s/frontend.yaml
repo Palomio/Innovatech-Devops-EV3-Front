@@ -1,43 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: front-innovatech-deployment
-  namespace: default
-  labels:
-    app: front-innovatech
+  name: frontend-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: front-innovatech
+      app: frontend
   template:
     metadata:
       labels:
-        app: front-innovatech
+        app: frontend
     spec:
       containers:
-      - name: front-innovatech
+      - name: frontend
         image: 363163918702.dkr.ecr.us-east-1.amazonaws.com/front:latest
         ports:
         - containerPort: 80
-        resources:
-          limits:
-            cpu: "300m"
-            memory: "256Mi"
+        resources: 
           requests:
-            cpu: "150m"
+            cpu: "100m"
             memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: front-innovatech-service
-  namespace: default
+  name: frontend-service
 spec:
-  type: LoadBalancer
+  type: LoadBalancer 
   selector:
-    app: front-innovatech
+    app: frontend
   ports:
   - protocol: TCP
-    port: 80  
-    targetPort: 80 
+    port: 80
+    targetPort: 80
