@@ -1,7 +1,6 @@
 
 name: CI/CD Pipeline - Frontend (EKS)
 
-
 on:
   push:
     branches:
