@@ -1,63 +1,76 @@
-# 🌐 Innovatech Chile - Cliente Web
+# 🖥️ Innovatech Chile - Aplicación Web
 
-Este repositorio alberga la aplicación Frontend de Innovatech Chile, encargada de proporcionar una interfaz intuitiva para la gestión de pedidos y procesos logísticos. Desde esta plataforma, los usuarios pueden consultar órdenes, monitorear estados de despacho y administrar información relacionada con las entregas.
+Proyecto correspondiente a la interfaz web utilizada para operar la plataforma logística de Innovatech Chile. Desde esta aplicación es posible consultar pedidos, visualizar información de despachos y gestionar distintas operaciones relacionadas con la distribución de productos.
 
-## 🏛️ Infraestructura de la Aplicación
+## ✨ Funcionalidades Principales
 
-La aplicación se distribuye como una imagen Docker y se ejecuta dentro de un entorno Kubernetes administrado mediante Amazon EKS. La exposición del servicio hacia Internet se realiza a través de un balanceador de carga configurado automáticamente por Kubernetes, permitiendo un acceso seguro y escalable.
+* Consulta de órdenes registradas.
+* Visualización del estado de despachos.
+* Gestión de procesos logísticos.
+* Comunicación con los servicios backend mediante API REST.
 
-## 🛠️ Configuración y Ejecución Local
+## 🧰 Tecnologías Utilizadas
 
-### Requisitos
+* React
+* Vite
+* Node.js
+* Docker
+* Kubernetes
+* AWS
 
-* Node.js 16 o superior
+## 🚀 Configuración del Entorno
+
+### Dependencias necesarias
+
+* Node.js 16+
 * npm o yarn
 
-### Instalación
-
-1. Obtener una copia del repositorio:
+### Descarga del proyecto
 
 ```bash
 git clone https://github.com/DoomedPlayer/DevopsEV3-front.git
 ```
 
-2. Instalar las librerías necesarias:
+### Instalación de paquetes
 
 ```bash
 npm install
 ```
 
-3. Definir las variables de entorno del proyecto:
+### Variables de entorno
 
-Crear un archivo `.env` en la carpeta raíz y configurar las direcciones de los servicios backend.
+Crear un archivo `.env` en la raíz del proyecto:
 
-```bash
+```env
 VITE_URL_VENTAS=http://localhost:8082
 VITE_URL_DESPACHOS=http://localhost:8081
 ```
 
-Durante el desarrollo se utilizan endpoints locales, mientras que en producción se emplean las direcciones públicas entregadas por la infraestructura AWS.
+Las direcciones pueden modificarse dependiendo del entorno donde se despliegue la aplicación.
 
-4. Levantar el entorno de desarrollo:
+### Inicio del servidor local
 
 ```bash
 npm run dev
 ```
 
-## 🔄 Automatización de Entrega (CI/CD)
+## 🌍 Despliegue en la Nube
 
-La publicación de nuevas versiones está automatizada mediante GitHub Actions. Cuando se reciben cambios en la rama principal, se ejecuta el siguiente proceso:
+La aplicación se empaqueta como una imagen Docker y se ejecuta sobre Amazon EKS.
 
-### Flujo de Despliegue
+El acceso de los usuarios se realiza mediante un balanceador de carga configurado en Kubernetes, permitiendo distribuir el tráfico hacia las réplicas disponibles de la aplicación.
 
-1. Instalación de dependencias y construcción de la aplicación React.
+## 🔄 Flujo de Entrega Continua
 
-2. Generación de la imagen Docker correspondiente al Frontend.
+Cada actualización enviada a la rama principal activa automáticamente un pipeline de GitHub Actions.
 
-3. Envío de la imagen hacia un repositorio privado alojado en Amazon ECR.
+### Etapas del pipeline
 
-4. Actualización automática del Deployment en Amazon EKS utilizando herramientas de Kubernetes.
+1. Instalación de dependencias del proyecto.
+2. Compilación de la aplicación React.
+3. Creación de la imagen Docker.
+4. Publicación de la imagen en Amazon ECR.
+5. Actualización automática del Deployment en Kubernetes.
 
-5. Uso de GitHub Secrets para proteger credenciales, tokens y variables sensibles relacionadas con AWS.
+La configuración sensible utilizada durante el proceso se administra mediante GitHub Secrets, manteniendo protegidas las credenciales de acceso a los servicios de AWS.
 
-Gracias a este proceso, las nuevas versiones pueden publicarse con mínima interrupción del servicio y de forma completamente automatizada.
