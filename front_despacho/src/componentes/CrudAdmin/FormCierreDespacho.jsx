@@ -7,20 +7,14 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
 
   const onSubmit = async (data) => {
     console.log("onSubmit ejecutado");
-    
-    // Aquí está la magia: mandamos la info original intacta + lo que modificaste
+
     const jsonData = {
-      fechaDespacho: despacho.fechaDespacho,
-      patenteCamion: despacho.patenteCamion,
-      idCompra: despacho.idCompra,
-      direccionCompra: despacho.direccionCompra,
-      valorCompra: despacho.valorCompra,
-      intento: data.intento,
-      despachado: data.despachado,
-      entregado: data.despachado, // Por si tu backend usa este nombre
+      ...despacho, 
+      intento: parseInt(data.intento), 
+      despachado: data.despachado === "true", 
     };
 
-    console.log("Datos del formulario:", jsonData);
+    console.log("Datos a enviar al backend:", jsonData);
 
     try {
       await axios.put(
@@ -33,7 +27,7 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           }
         }
       );
-      Swal.fire({
+      await Swal.fire({
         title: "Despacho modificado 🛻!",
         text: "El despacho ha sido modificado exitosamente",
         icon: "success",
