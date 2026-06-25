@@ -7,9 +7,17 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
 
   const onSubmit = async (data) => {
     console.log("onSubmit ejecutado");
+    
+    // Aquí está la magia: mandamos la info original intacta + lo que modificaste
     const jsonData = {
+      fechaDespacho: despacho.fechaDespacho,
+      patenteCamion: despacho.patenteCamion,
+      idCompra: despacho.idCompra,
+      direccionCompra: despacho.direccionCompra,
+      valorCompra: despacho.valorCompra,
       intento: data.intento,
       despachado: data.despachado,
+      entregado: data.despachado, // Por si tu backend usa este nombre
     };
 
     console.log("Datos del formulario:", jsonData);
@@ -19,10 +27,10 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
         `${import.meta.env.VITE_URL_DESPACHOS}/api/v1/despachos/${despacho.idDespacho}`,
         jsonData,
         {
-          headers:{
+          headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-      }
+          }
         }
       );
       Swal.fire({
