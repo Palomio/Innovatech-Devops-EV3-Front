@@ -35,9 +35,10 @@ jobs:
           docker build \
             --build-arg VITE_URL_VENTAS=${{ secrets.URL_VENTAS }} \
             --build-arg VITE_URL_DESPACHOS=${{ secrets.URL_DESPACHOS }} \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
       - name: Actualizar Kubeconfig
         run: aws eks update-kubeconfig --region us-east-1 --name EKS-Ev3 
