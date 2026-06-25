@@ -3,7 +3,7 @@ name: CI/CD Pipeline - Frontend (EKS)
 on:
   push:
     branches:
-      - MAIN
+      - main
 
 jobs:
   build-and-deploy:
@@ -39,7 +39,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Actualizar Kubeconfig
-        run: aws eks update-kubeconfig --region us-east-1 --name ClusterEV3 
+        run: aws eks update-kubeconfig --region us-east-1 --name EKS-Ev3 
 
       - name: Desplegar Frontend en Kubernetes
         env:
